@@ -6,9 +6,50 @@ version = "0.1.0"
 
 [tool.poetry.dependencies]
 
+attrs = "^21.4.0"
 python = "{{ cookiecutter.python_version }}"
+rich = "^11.2.0"
 
 [tool.poetry.dev-dependencies]
+autoflake = "^1.4"
+black = "^22.1.0"
+isort = "^5.10.1"
+poethepoet = "^0.13.1"
+pylint = "^2.12.2"
+pytest = "^7.0.1"
+pytest-cov = "^3.0.0"
+
+
+[tool.poetry.scripts]
+app = "{{ cookiecutter.project_slug }}.main:main"
+
+[tool.pylint.messages_control]
+
+# Good variable names which should always be accepted
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "too-few-public-methods",
+]
+good-names = ["f", "s", "i", "j", "k", "x", "y"]
+
+
+[tool.poe.env]
+SRC = "{{ cookiecutter.project_slug }} scripts tests"
+
+[tool.poe.tasks]
+run = "poetry run app"
+test = "pytest --verbose"
+
+better = ["import_remove", "import_sort", "format"]
+format = "black ${SRC}"
+import_remove = "autoflake --in-place --remove-unused-variables --remove-all-unused-imports --ignore-init-module-imports -r ${SRC}"
+import_sort = "isort ${SRC}"
+lint = "pylint ${SRC}"
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
