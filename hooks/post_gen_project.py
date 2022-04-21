@@ -20,9 +20,9 @@ def do_poetry_install_dependency():
 def do_git_init():
     git = require_exe("git")
     run([git, "init"])
-    run([git, "branch", "-m", "master", "main"])
     run([git, "add", "README.md", ".gitignore"])
     run([git, "commit", "-m", "inital commit"])
+    run([git, "branch", "-m", "master", "main"])
 
 
 if __name__ == "__main__":
