@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "py-template"
+version = "0.1.0"
+description = "python project template"
+authors = ["Ian Chen <ianre657@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+autoflake = "^1.4"
+black = "^22.1.0"
+isort = "^5.10.1"
+poethepoet = "^0.13.1"
+pylint = "^2.12.2"
+pytest = "^7.0.1"
+pytest-cov = "^3.0.0"
+
+
+[tool.poe.env]
+SRC = "hooks"
+
+[tool.poe.tasks]
+format = "black ${SRC}"
+import_remove = "autoflake --in-place --remove-unused-variables --remove-all-unused-imports --ignore-init-module-imports -r ${SRC}"
+import_sort = "isort ${SRC}"
+lint = "pylint ${SRC}"
+
+better = ["import_remove", "import_sort", "format"]
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

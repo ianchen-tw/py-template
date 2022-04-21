@@ -1,8 +1,8 @@
 import shutil
 import sys
-from subprocess import run
-from typing import Optional, List
 from pathlib import Path
+from subprocess import run
+
 
 def require_exe(name: str) -> Path:
     exe = shutil.which(name)
@@ -11,18 +11,20 @@ def require_exe(name: str) -> Path:
         sys.exit(1)
     return Path(exe)
 
+
 def do_poetry_install_dependency():
     poetry = require_exe("poetry")
-    run([poetry,"install", "--no-interaction"])
+    run([poetry, "install", "--no-interaction"])
+
 
 def do_git_init():
     git = require_exe("git")
     run([git, "init"])
     run([git, "branch", "-m", "master", "main"])
     run([git, "add", "README.md", ".gitignore"])
-    run([git, 'commit', "-m", "inital commit"]) 
+    run([git, "commit", "-m", "inital commit"])
 
-    
+
 if __name__ == "__main__":
     do_poetry_install_dependency()
     do_git_init()
