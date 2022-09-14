@@ -42,6 +42,8 @@ SRC = "{{ cookiecutter.project_slug }} scripts tests"
 run = "poetry run app"
 test = "pytest --verbose"
 
+export = "poetry export --without-hashes -f requirements.txt --output requirements.txt"
+
 better = ["import_remove", "import_sort", "format"]
 format = "black ${SRC}"
 import_remove = "autoflake --in-place --remove-unused-variables --remove-all-unused-imports --ignore-init-module-imports -r ${SRC}"
