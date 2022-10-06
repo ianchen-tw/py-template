@@ -12,22 +12,32 @@ python = "^3.10"
 autoflake = "^1.4"
 black = "^22.1.0"
 isort = "^5.10.1"
-poethepoet = "^0.13.1"
+poethepoet = "^0.16.2"
 pylint = "^2.12.2"
 pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
 
 
+[tool.poetry.group.dev.dependencies]
+black = {version = "^22.8.0", allow-prereleases = true}
+
 [tool.poe.env]
 SRC = "hooks"
 
-[tool.poe.tasks]
-format = "black ${SRC}"
-import_remove = "autoflake --in-place --remove-unused-variables --remove-all-unused-imports --ignore-init-module-imports -r ${SRC}"
-import_sort = "isort ${SRC}"
-lint = "pylint ${SRC}"
+[tool.poe.tasks.better]
+help = "Remove unused imports & sort existing imports"
+sequence = [
+  # remove unused import
+  { cmd = "autoflake --in-place --remove-unused-variables --remove-all-unused-imports --ignore-init-module-imports -r ${SRC}" },
+  # sort import
+  { cmd = "isort ${SRC}" },
+  # format code
+  { cmd = "black ${SRC}" },
+]
 
-better = ["import_remove", "import_sort", "format"]
+[tool.poe.tasks]
+test = { cmd = "pytest -vv ${SRC}", help= "Run test"}
+lint = {cmd = "pylint ${SRC}", help= "Lint code"}
 
 [tool.isort]
 profile = "black"
