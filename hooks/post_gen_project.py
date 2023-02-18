@@ -1,7 +1,7 @@
 import shutil
+import subprocess as sp
 import sys
 from pathlib import Path
-from subprocess import run
 
 dep_main = [
     "attrs",
@@ -14,9 +14,9 @@ dep_dev = [
     "black",
     "isort",
     "poethepoet",
-    "pylint",
     "pytest",
     "pytest-cov",
+    "ruff",
 ]
 
 
@@ -34,7 +34,7 @@ def run_exe(target: str, *args):
     final_args.append(exe)
     final_args.extend(args)
     print(f"Execute: {final_args}")
-    run(final_args, check=True)
+    sp.run(final_args, check=True)
 
 
 def do_git_init():
@@ -42,13 +42,18 @@ def do_git_init():
     run_exe("git", "add", "README.md", ".gitignore")
     run_exe("git", "commit", "-m", "inital commit")
 
-    run_exe("git", "branch", "-m", "master", "main")
+    current_branch = (
+        sp.check_output(["git", "branch", "--show-current"]).decode().strip()
+    )
+    if current_branch == "master":
+        run_exe("git", "branch", "-m", "master", "main")
 
     run_exe("git", "add", ".")
     run_exe("git", "commit", "-m", "Setup for python development")
 
 
 if __name__ == "__main__":
+    run_exe("poetry", "env use", "{{ cookiecutter.python_version }}")
     run_exe("poetry", "add", *dep_main)
     run_exe("poetry", "add", "-G", "dev", *dep_dev)
     run_exe("poetry", "install", "--with", "dev")

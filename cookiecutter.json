@@ -3,5 +3,6 @@
   "email": "ianchen-tw@example.com",
   "github_username": "ianchen-tw",
   "project_name": "example-project",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}"
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "python_version": "3.10.5"
 }

@@ -16,6 +16,7 @@ poethepoet = "^0.16.2"
 pylint = "^2.12.2"
 pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
+ruff = "^0.0.247"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -37,7 +38,7 @@ sequence = [
 
 [tool.poe.tasks]
 test = { cmd = "pytest -vv ${SRC}", help= "Run test"}
-lint = {cmd = "pylint ${SRC}", help= "Lint code"}
+lint = {cmd = "ruff ${SRC}", help= "Lint code"}
 
 [tool.isort]
 profile = "black"

@@ -6,13 +6,13 @@ version = "0.1.0"
 
 
 [tool.poetry.dependencies]
-python = "^3.7.2"
+python = "^{{ cookiecutter.python_version }}"
 
 [tool.poetry.scripts]
 app = "{{ cookiecutter.project_slug }}.__main__:app"
 
 [tool.poe.env]
-SRC = "{{ cookiecutter.project_slug }} dev_tasks tests"
+SRC = "{{ cookiecutter.project_slug }} scripts tests"
 
 
 [tool.poe.tasks.better]
@@ -30,7 +30,7 @@ sequence = [
 [tool.poe.tasks]
 run = { cmd = "poetry run app", help = "Start app" }
 test = { cmd = "pytest --verbose", help = "Run pytest" }
-lint = { cmd = "pylint ${SRC}", help = "Run pylint to check project" }
+lint = { cmd = "ruff ${SRC}", help = "Run ruff to check project" }
 
 
 [tool.isort]
